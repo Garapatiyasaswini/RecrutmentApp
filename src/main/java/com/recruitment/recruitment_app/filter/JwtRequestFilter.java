@@ -33,8 +33,8 @@
                 try {
                     email = jwtUtil.extractUsername(jwt);
                 } catch (Exception e) {
-                    logger.warn("JWT extraction failed: {}", e);
-                }
+                 logger.warn("JWT extraction failed: " + e.getMessage(), e); 
+              }
             }
 
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -50,11 +50,12 @@
             chain.doFilter(request, response);
         }
 
-        @Override
+       @Override
         protected boolean shouldNotFilter(HttpServletRequest request) {
             String path = request.getRequestURI().substring(request.getContextPath().length());
             System.out.println("Skipping filter check for path: " + path);
-            return path.startsWith("/auth");
+            return path.startsWith("/auth/") || path.equals("/auth");
         }
+
 
     }
