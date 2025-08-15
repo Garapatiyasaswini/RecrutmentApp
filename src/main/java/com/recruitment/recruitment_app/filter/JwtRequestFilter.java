@@ -50,12 +50,15 @@
             chain.doFilter(request, response);
         }
 
-       @Override
-        protected boolean shouldNotFilter(HttpServletRequest request) {
-            String path = request.getRequestURI().substring(request.getContextPath().length());
-            System.out.println("Skipping filter check for path: " + path);
-            return path.startsWith("/auth/") || path.equals("/auth");
-        }
+      @Override
+protected boolean shouldNotFilter(HttpServletRequest request) {
+    String path = request.getRequestURI().substring(request.getContextPath().length());
+    System.out.println("Skipping filter check for path: " + path);
+
+    // Skip auth and user endpoints
+    return path.startsWith("/auth") || path.startsWith("/user");
+}
+
 
 
     }
